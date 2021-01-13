@@ -6,13 +6,20 @@
     <title>首页</title>
     <script src="https://unpkg.com/vue/dist/vue.js"></script>
     <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+    <style>
+        .isActive {
+            color: black;
+            font-size: 30px;
+        }
+    </style>
 </head>
 <body>
     <div id="app">
         <p>hello world</p>
 
-        <router-link to="/foo">go to foo</router-link>
-        <router-link to="/bar">fo to bar</router-link>
+        <router-link to="/foo" active-class="isActive">go to foo</router-link>
+        <router-link to="/bar" active-class="isActive">go to bar</router-link>
+        <router-link to="/user/123" active-class="isActive">go to user</router-link>
 
         <router-view></router-view>
     </div>
@@ -20,10 +27,23 @@
     <script type="text/javascript">
         const Foo = {template: '<div>foo</div>'}
         const Bar = {template: '<div>bar</div>'}
+        const User = {
+            template: '<div>user{{$route.params.id}}{{name}}</div>',
+            data () {
+                return  {
+                    name: 'yyf'
+                }
+            },
+            mounted () {
+                console.log('user components mounted')
+                console.log(this.$route)
+            },
+        }
 
         const routes = [
-            { path: '/foo',component:Foo},
-            { path: '/bar',component:Bar}
+            { path: '/foo', name: 'foo component',component:Foo,meta: { address: '云南',icon: 'success',title: '首页'}},
+            { path: '/bar',name: 'bar component',component:Bar,meta: { address: '昆明',icon: 'default',title: '我的'}},
+            { path: '/user/:id',name:'user component',component:User,meta: { address: '西山区',icon: 'cancel',title: '个人中心'}}
         ]
 
         const router = new VueRouter({
