@@ -7,6 +7,9 @@
     <script src="https://unpkg.com/vue/dist/vue.js"></script>
     <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
     <style>
+        a{
+            text-decoration: none;
+        }
         .isActive {
             color: black;
             font-size: 30px;
@@ -26,29 +29,38 @@
 
     <script type="text/javascript">
         const Foo = {template: '<div>foo</div>'}
-        const Bar = {template: '<div>bar</div>'}
+        const Bar = {
+            template: '<div>bar</div>'
+        }
         const User = {
-            template: '<div>user{{$route.params.id}}{{name}}</div>',
+            props: ['id'], //使用 props 将组件和路由解耦：获取动态路由
+            template: '<div>user{{name}}{{id}}<button v-for="(item,index) in routeData" :key="index">{{item}}</button></div>',
             data () {
                 return  {
-                    name: 'yyf'
+                    name: 'yyf',
+                    routeData:''
                 }
             },
             mounted () {
                 console.log('user components mounted')
-                console.log(this.$route)
+                this.routeData = this.$route.meta
+                console.log(this.routeData)
             },
         }
-
         const routes = [
             { path: '/foo', name: 'foo component',component:Foo,meta: { address: '云南',icon: 'success',title: '首页'}},
             { path: '/bar',name: 'bar component',component:Bar,meta: { address: '昆明',icon: 'default',title: '我的'}},
-            { path: '/user/:id',name:'user component',component:User,meta: { address: '西山区',icon: 'cancel',title: '个人中心'}}
+            { path: '/user/:id',props:true,name:'user component',component:User,meta: { address: '西山区',icon: 'cancel',title: '个人中心'}}
         ]
 
         const router = new VueRouter({
             routes
         })
+
+        // router.beforeEach((to, from, next) => {
+        //     if (to.name !== 'bar' ) next({ name: 'foo' })
+        //     else next()
+        // })
 
         const app = new Vue({
             router
