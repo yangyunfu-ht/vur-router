@@ -1,2 +1,2 @@
 # vur-router
-这是一个联系vue-router的应用
+这是一个练习vue-router的应用
