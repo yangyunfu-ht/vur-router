@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>作用域插槽</title>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+</head>
+<body>
+
+    <!-- 具名插槽 -->
+    <!-- <div id="app">
+        <cpm>
+            <span slot="header">这是头部</span>
+            <span slot="footer">这是底部</span>
+            <span>default</span>
+        </cpm>
+    </div>
+    
+    <template id="cpm">
+        <div>
+           <slot name="header">header</slot>
+           <slot name="mian">mian</slot>
+           <slot name="footer">footer</slot>
+           <slot></slot>
+        </div>
+    </template>
+
+    <script>
+        const app = new Vue({
+            el: "#app",
+            data () {
+               return {
+                    message: 'yyf'
+               }
+            },
+            components: {
+               cpm: {
+                   template: '#cpm'
+               }
+            }
+        })
+    </script> -->
+
+     <!-- 作用于插槽 -->
+    <div id="app">
+        <cpm></cpm>
+        <cpm>
+            <template slot-scope="scope">
+                <!-- <span v-for="(item,idex) in scope.data" :key="index">{{item}}</span> -->
+                {{scope}}________
+                {{scope.data}}
+            </template>
+        </cpm>
+        <cpm></cpm>
+    </div>
+    
+    <template id="cpm">
+        <div>
+          <slot :data="address">
+            <ul>
+                <li v-for="(item,index) in address" :key="index">{{item}}</li>
+            </ul>
+          </slot>
+        </div>
+    </template>
+
+    <script>
+        const app = new Vue({
+            el: "#app",
+            data () {
+               return {
+                    message: 'yyf'
+               }
+            },
+            components: {
+               cpm: {
+                   template: '#cpm',
+                   data () {
+                       return {
+                           address: ['云南',"昆明","西山区","万达广场"]
+                       }
+                   }
+               }
+            }
+        })
+    </script>
+</body>    
+</html>

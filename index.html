@@ -18,7 +18,7 @@
 </head>
 <body>
     <div id="app">
-        <p>hello world</p>
+       
 
         <router-link to="/foo" active-class="isActive">go to foo</router-link>
         <router-link to="/bar" active-class="isActive">go to bar</router-link>
@@ -28,13 +28,85 @@
     </div>
 
     <script type="text/javascript">
-        const Foo = {template: '<div>foo</div>'}
-        const Bar = {
-            template: '<div>bar</div>'
+        const buttonType = { template: 
+            `<div class="button-type">
+                <slot>sbumit</slot>
+            </div>
+            `}
+
+        const fontIcon = { template:`
+            <div class="fontIcon">
+                这是一个子子组件
+            </div>
+            `}
+        
+        const navgitorLink = { 
+            template:
+            `<div class="navgitorLink">
+               loged as {{user.name}}
+                <slot></slot>
+            </div>`,
+            // components: { fontIcon },
+            data () {
+                return {
+                    user: {
+                        name: 'yyf',
+                        age: 23
+                    }
+                }
+            }
         }
+
+        const baseLayout = {template: `<div>
+            <template v-slot:header>
+                <h1>Here might be a page title</h1>
+            </template>
+
+            <template v-slot:default>
+                <p>A paragraph for the main content.</p>
+                <p>And another one.</p>
+            </template>
+
+            <template v-slot:footer>
+                <p>Here's some contact info</p>
+            </template>
+            </div>`}
+
+        const Foo = {
+            components: { baseLayout },
+            template: `<div class="foo">
+                foo
+            <header>
+                
+                <slot name="header"></slot>
+            </header>
+            <main>
+              
+                <slot></slot>
+            </main>
+            <footer>
+               
+                <slot name="footer"></slot>
+            </footer>
+            </div>`}
+
+        const Bar = {
+            components: { navgitorLink },
+            template: `<div class="bar">
+                bar 
+                <navgitor-Link>
+                <p>翩翩舞翩翩，年年复年年</p>
+                </navgitor-Link></div>`
+        }
+
         const User = {
             props: ['id'], //使用 props 将组件和路由解耦：获取动态路由
-            template: '<div>user{{name}}{{id}}<button v-for="(item,index) in routeData" :key="index">{{item}}</button></div>',
+            components: { buttonType },
+            template: `<div class="user">
+                user{{name}}{{id}}
+                <button v-for="(item,index) in routeData" :key="index">{{item}}</button>
+                <button-Type>save</button-Type>
+                </div>`,
             data () {
                 return  {
                     name: 'yyf',

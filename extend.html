@@ -23,6 +23,12 @@
         })
         // 创建 Profile 实例，并挂载到一个元素上。
         new Profile().$mount('#mount-option')
+
+        Vue.nextTick()
+        .then(function () {
+            // DOM 更新了
+            alert(' // DOM 更新了')
+        })
     </script>
 </body>
 </html>
